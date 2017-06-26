@@ -1,6 +1,5 @@
 package com.tpcstld.twozerogame;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -73,15 +72,16 @@ public class MainView extends View {
     public MainView(Context context) {
         super(context);
 
+        Resources resources = context.getResources();
         //Loading resources
         game = new MainGame(context, this);
         try {
             //Getting assets
-            backgroundRectangle = getDrawable(R.drawable.background_rectangle);
-            lightUpRectangle = getDrawable(R.drawable.light_up_rectangle);
-            fadeRectangle = getDrawable(R.drawable.fade_rectangle);
-            this.setBackgroundColor(getResources().getColor(R.color.background));
-            Typeface font = Typeface.createFromAsset(getResources().getAssets(), "ClearSans-Bold.ttf");
+            backgroundRectangle = resources.getDrawable(R.drawable.background_rectangle);
+            lightUpRectangle = resources.getDrawable(R.drawable.light_up_rectangle);
+            fadeRectangle = resources.getDrawable(R.drawable.fade_rectangle);
+            this.setBackgroundColor(resources.getColor(R.color.background));
+            Typeface font = Typeface.createFromAsset(resources.getAssets(), "ClearSans-Bold.ttf");
             paint.setTypeface(font);
             paint.setAntiAlias(true);
         } catch (Exception e) {
@@ -136,11 +136,6 @@ public class MainView extends View {
         createBitmapCells();
         createBackgroundBitmap(width, height);
         createOverlays();
-    }
-
-    @SuppressWarnings("deprecation")
-    private Drawable getDrawable(int resId) {
-        return getResources().getDrawable(resId);
     }
 
     private void drawDrawable(Canvas canvas, Drawable draw, int startingX, int startingY, int endingX, int endingY) {
@@ -220,7 +215,7 @@ public class MainView extends View {
         }
 
         drawDrawable(canvas,
-                getDrawable(R.drawable.ic_action_refresh),
+                getResources().getDrawable(R.drawable.ic_action_refresh),
                 sXNewGame + iconPaddingSize,
                 sYIcons + iconPaddingSize,
                 sXNewGame + iconSize - iconPaddingSize,
@@ -238,7 +233,7 @@ public class MainView extends View {
         );
 
         drawDrawable(canvas,
-                getDrawable(R.drawable.ic_action_undo),
+                getResources().getDrawable(R.drawable.ic_action_undo),
                 sXUndo + iconPaddingSize,
                 sYIcons + iconPaddingSize,
                 sXUndo + iconSize - iconPaddingSize,
@@ -270,7 +265,7 @@ public class MainView extends View {
     //Renders the set of 16 background squares.
     private void drawBackgroundGrid(Canvas canvas) {
         Resources resources = getResources();
-        Drawable backgroundCell = getDrawable(R.drawable.cell_rectangle);
+        Drawable backgroundCell = resources.getDrawable(R.drawable.cell_rectangle);
         // Outputting the game grid
         for (int xx = 0; xx < game.numSquaresX; xx++) {
             for (int yy = 0; yy < game.numSquaresY; yy++) {
@@ -447,7 +442,7 @@ public class MainView extends View {
             paint.setTextSize(tempTextSize);
             Bitmap bitmap = Bitmap.createBitmap(cellSize, cellSize, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
-            drawDrawable(canvas, getDrawable(cellRectangleIds[xx]), 0, 0, cellSize, cellSize);
+            drawDrawable(canvas, resources.getDrawable(cellRectangleIds[xx]), 0, 0, cellSize, cellSize);
             drawCellText(canvas, value);
             bitmapCell[xx] = new BitmapDrawable(resources, bitmap);
         }
